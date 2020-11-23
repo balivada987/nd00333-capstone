@@ -1,0 +1,5 @@
+#Local Deployment
+from azureml.core.webservice import LocalWebservice
+local_config = LocalWebservice.deploy_configuration(port=9000)
+local_service = Model.deploy(ws, "test", [auto_ml], inference_config, local_config)
+local_service.wait_for_deployment(show_output=True)
