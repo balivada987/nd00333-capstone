@@ -1,0 +1,22 @@
+import json
+import numpy as np
+import os
+from sklearn.externals import joblib
+import pandas as pd
+
+def init():
+    global model
+    model_path = os.path.join(os.getenv('AZUREML_MODEL_DIR'), 'automl_best_model.pkl')
+    model2 = joblib.load(model_path)
+
+def run(data):
+    try:
+        print(data)
+        inp = json.loads(data)
+        print(inp)
+        result = model2.predict(pd.DataFrame(inp['data']))
+        # You can return any data type, as long as it is JSON serializable.
+        return result.tolist()
+    except Exception as e:
+        error = str(e)
+        return error
